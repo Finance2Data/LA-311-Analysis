@@ -1,0 +1,54 @@
+--Year: 2019
+SELECT
+request_id, created_date, closed_date, DATE_PART('day',closed_date - created_date) AS days_to_close, 
+EXTRACT(YEAR from created_date) AS year, EXTRACT(MONTH from created_date) AS month, EXTRACT(QUARTER from created_date) AS quarter,
+requesttype, address, a.police_precinct_id, b.police_precinct,
+CASE
+WHEN source = 'Mobile App' THEN 'Mobile App'
+WHEN (source = 'Call' OR source = 'Voicemail') THEN 'Call'
+WHEN source = 'Twitter' THEN 'Twitter'
+WHEN source = 'Email' THEN 'Email'
+WHEN Source = 'Web Form' THEN 'Web Form'
+ELSE 'Other' END as new_bucket_source
+FROM la_311_2019 a
+JOIN la_311_area_police_precincts b 
+ON a.police_precinct_id = b.police_precinct_id
+WHERE DATE_PART('day',a.closed_date - a.created_date) <> 0 AND a.requesttype = 'Homeless Encampment'
+
+UNION
+
+--Year: 2018
+SELECT
+request_id, created_date, closed_date, DATE_PART('day',closed_date - created_date) AS days_to_close, 
+EXTRACT(YEAR from created_date) AS year, EXTRACT(MONTH from created_date) AS month, EXTRACT(QUARTER from created_date) AS quarter,
+requesttype, address, a.police_precinct_id, b.police_precinct,
+CASE
+WHEN source = 'Mobile App' THEN 'Mobile App'
+WHEN (source = 'Call' OR source = 'Voicemail') THEN 'Call'
+WHEN source = 'Twitter' THEN 'Twitter'
+WHEN source = 'Email' THEN 'Email'
+WHEN Source = 'Web Form' THEN 'Web Form'
+ELSE 'Other' END as new_bucket_source
+FROM la_311_2018 a
+JOIN la_311_area_police_precincts b 
+ON a.police_precinct_id = b.police_precinct_id
+WHERE DATE_PART('day',a.closed_date - a.created_date) <> 0 AND a.requesttype = 'Homeless Encampment'
+
+UNION
+
+--Year: 2017
+SELECT
+request_id, created_date, closed_date, DATE_PART('day',closed_date - created_date) AS days_to_close, 
+EXTRACT(YEAR from created_date) AS year, EXTRACT(MONTH from created_date) AS month, EXTRACT(QUARTER from created_date) AS quarter,
+requesttype, address, a.police_precinct_id, b.police_precinct,
+CASE
+WHEN source = 'Mobile App' THEN 'Mobile App'
+WHEN (source = 'Call' OR source = 'Voicemail') THEN 'Call'
+WHEN source = 'Twitter' THEN 'Twitter'
+WHEN source = 'Email' THEN 'Email'
+WHEN Source = 'Web Form' THEN 'Web Form'
+ELSE 'Other' END as new_bucket_source
+FROM la_311_2017 a
+JOIN la_311_area_police_precincts b 
+ON a.police_precinct_id = b.police_precinct_id
+WHERE DATE_PART('day',a.closed_date - a.created_date) <> 0 AND a.requesttype = 'Homeless Encampment';
